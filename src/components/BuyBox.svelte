@@ -1,14 +1,32 @@
 <script lang="ts">
-  let { upgrade } = $props();
+    import { formatNum } from "../utils/formatNum";
+
+  
+  let { upgrade = $bindable(), gold = $bindable(), dmgPerClick = $bindable(), dmgPerSecond = $bindable()} = $props();
+  console.log(upgrade.price, gold);
+  
+  const buyUpgrade = () => {
+    gold -= upgrade.price;
+    upgrade.owned++;
+    
+    if(upgrade?.dmgPerClick) dmgPerClick += upgrade.dmgPerClick
+
+    if(upgrade?.dmgPerSec) dmgPerSecond += upgrade.dmgPerSec
+
+    console.log(upgrade.price, upgrade.priceMultiplier);
+    
+    upgrade.price = upgrade.price * upgrade.priceMultiplier
+  }
+
 </script>
 
 <div class="buyBox">
-  <h4>{upgrade.name}</h4>
+  <h3>{upgrade.name} #{upgrade.owned}</h3>
   <img src={upgrade.url} alt="" />
-  <p>{upgrade.basePrice} Gold</p>
+  <p>{formatNum(upgrade.price)} Gold</p>
   <small>{upgrade.flavorText}</small>
-  <button>Buy</button>
-</div>
+  <button disabled={upgrade.price > gold} onclick={() => buyUpgrade()}>Buy</button>
+</div> 
 
 <style>
   .buyBox {
@@ -17,12 +35,16 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 300px;
+    height: 292px;
   }
 
-  img {
-    width: 128px;
-    height: 128px;
+  h3, p  {
+    margin:8px 0;
+  }
+
+  img{
+    width: 96px;
+    height: 96px;
   }
 
   button {
