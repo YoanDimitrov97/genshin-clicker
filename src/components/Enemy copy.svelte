@@ -13,14 +13,14 @@
   } = $props();
 
   // Array to track floating damage numbers
-  let damageAnimRef: {
-    addDamage: (value: number) => void;
-    containerWidth: number;
-    containerHeight: number;
-  };
+  let damageNumbers : {
+  id: number;
+  value: number;
+  x: number;
+  opacity: number;
+}[] = $state([{id:"", value:0, x:0, opacity:0}]);
 
   //states
-  let maxHP = $state(0);
   let currentHP = $state(0);
   let currentEnemy = $state<Enemy>({
     name: "",
@@ -46,9 +46,9 @@
 
     // Scaled random HP
     const randHP = Math.floor(
-      (Math.random() * (baseMaxHP - baseMinHP) + baseMinHP) * hpMultiplier
+      (Math.random() * (baseMaxHP - baseMinHP) + baseMinHP) * hpMultiplier,
     );
-    maxHP = randHP;
+
     currentHP = randHP;
   };
 
@@ -61,19 +61,30 @@
     const randGold = Math.floor(
       (Math.random() * (currentEnemy.maxGoldYield - currentEnemy.minGoldYield) +
         currentEnemy.minGoldYield) *
-        goldMultiplier
+        goldMultiplier,
     );
     console.log(gold, randGold);
 
     gold += randGold;
   };
 
-  //RUNS EVERYTIME YOU TAKE DAMAGE
+  //DAMAGE PER CLICK
   const takeDamage = (amount = 1) => {
     if (amount > 0) {
       currentHP -= amount;
 
-      damageAnimRef.addDamage(amount);
+      const newNumber = {
+        id: Date.now(), // Unique identifier
+        value: amount,
+        x: Math.random() * 400 - 1, // Random horizontal position (-50 to 50)
+        // y: Math.random() * 400 - 200, // Random vertical position (-50 to 50)
+        opacity: 1,
+      };
+      damageNumbers = [...damageNumbers, newNumber];
+      // Remove after animation completes
+      setTimeout(() => {
+        damageNumbers = damageNumbers.filter((n) => n.id !== newNumber.id);
+      }, 1000);
     }
 
     if (currentHP <= 0) {
@@ -97,22 +108,10 @@
 
 <button class="enemyBox" onclick={() => takeDamage(dmgPerClick)}>
   <h1>HP: {formatNum(currentHP, 3)}</h1>
-  <meter class="health-meter" max={maxHP} value={formatNum(currentHP, 3)} title="HP" low={maxHP * 0.3}   
-  high={maxHP * 0.6}></meter>
   <h1>{currentEnemy.name}</h1>
+  <img src={currentEnemy.url} alt="" />
 
-  <div class="enemyImageContainer">
-    <img
-      src={currentEnemy.url}
-      alt=""
-      onload={(e) => {
-        // Auto-detect image dimensions
-        damageAnimRef.containerWidth = e.currentTarget.clientWidth;
-        damageAnimRef.containerHeight = e.currentTarget.clientHeight;
-      }}
-    />
-    <DamageNumberAnimation bind:this={damageAnimRef} />
-  </div>
+  <DamageNumberAnimation {damageNumbers} />
 </button>
 
 <style>
@@ -120,32 +119,11 @@
     outline: none;
   }
 
-  .health-meter {
-    width: 15%;
-    height: 20px;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  /* Chrome/Safari */
-  .health-meter::-webkit-meter-bar {
-    background: #eee; /* Track color */
-    border-radius: 10px;
-  }
-  
-  .health-meter::-webkit-meter-optimum-value {
-    background: #FFD600; /* Pure green */
-  }
-  
-  .health-meter::-webkit-meter-suboptimum-value {
-    background: #DD2C00; /* Pure yellow */
-  }
-
   .enemyBox h1 {
     margin-bottom: 20px;
   }
 
-  .enemyImageContainer {
-    position: relative;
-    display: inline-block; /* Makes wrapper fit image size */
+  img {
+    width: 360px;
   }
 </style>

@@ -5,7 +5,7 @@
   import { formatNum } from "./utils/formatNum";
   
   let currentUpgrades = $state(upgrades);
-  let gold = $state(40);
+  let gold = $state(0);
   let level = $state(1); // Starts at level 1
   let dmgPerClick = $state(1);
   let dmgPerSecond = $state(0);
