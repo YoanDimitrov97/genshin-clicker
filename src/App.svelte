@@ -23,7 +23,7 @@
         />
       {/each}
     </section>
-    <Enemy bind:level bind:dmgPerClick bind:dmgPerSecond bind:gold />
+    <Enemy bind:dmgPerClick bind:dmgPerSecond bind:gold />
   </main>
   <footer class="bottom">
     <span>DPC:{formatNum(dmgPerClick)}</span>

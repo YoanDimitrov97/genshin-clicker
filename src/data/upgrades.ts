@@ -1,13 +1,15 @@
+import { createUpgrade } from "../utils/createUpgrade";
 export const upgrades = [
   {
     name: "Fischl & Oz",
     flavorText: "+ 0.1 dmg/s",
     url: "https://paimon.moe/images/characters/fischl.png",
+    skillImg: "https://lustonpull.com/GENSHIN/Skill/1/Fischl/talent_2.png",
     price: 25,
     priceMultiplier: 1.14,
     dmgPerSec: 0.1,
-    elementalType:"Electro",
-    owned:0,
+    elementalType: "Electro",
+    owned: 0,
   },
   {
     name: "Fantastic Voyage",
@@ -16,8 +18,8 @@ export const upgrades = [
     price: 50,
     priceMultiplier: 1.14,
     dmgPerClick: 1,
-    elementalType:"Pyro",
-    owned:0,
+    elementalType: "Pyro",
+    owned: 0,
   },
   {
     name: "Glacial Waltz",
@@ -26,8 +28,8 @@ export const upgrades = [
     price: 100,
     priceMultiplier: 1.14,
     dmgPerSec: 0.5,
-    elementalType:"Cryo",
-    owned:0,
+    elementalType: "Cryo",
+    owned: 0,
   },
   {
     name: "Fiery Rain",
@@ -36,8 +38,8 @@ export const upgrades = [
     price: 250,
     priceMultiplier: 1.14,
     dmgPerCast: 10,
-    elementalType:"Pyro",
-    owned:0,
+    elementalType: "Pyro",
+    owned: 0,
   },
   {
     name: "Lightning Rose",
@@ -46,8 +48,8 @@ export const upgrades = [
     price: 500,
     priceMultiplier: 1.14,
     dmgPerSec: 1,
-    elementalType:"Electro",
-    owned:0,
+    elementalType: "Electro",
+    owned: 0,
   },
   // {
   //   name: "Xingqiu's Rain Blade",
@@ -86,4 +88,4 @@ export const upgrades = [
   // },
 ];
 
-//furina, xingqui, xiangling, 
+//furina, xingqui, xiangling,

@@ -1,119 +1,55 @@
 <script lang="ts">
-  import { enemies } from "../data/enemies";
-  import type { Enemy } from "../data/enemies";
+  import { damageSystem } from "../systems/damageSystem.svelte";
+  import { getEnemyState } from "../systems/enemySystem.svelte.";
   import { formatNum } from "../utils/formatNum";
   import DamageNumberAnimation from "./DamageNumberAnimation.svelte";
 
-  //props
+  // Props
   let {
     gold = $bindable(),
-    level = $bindable(),
     dmgPerClick = $bindable(),
     dmgPerSecond = $bindable(),
   } = $props();
 
-  // Array to track floating damage numbers
+  let enemy = getEnemyState();
+  // Damage animation ref
   let damageAnimRef: {
     addDamage: (value: number) => void;
     containerWidth: number;
     containerHeight: number;
   };
 
-  //states
-  let maxHP = $state(0);
-  let currentHP = $state(0);
-  let currentEnemy = $state<Enemy>({
-    name: "",
-    url: "",
-    baseMinHP: 0,
-    baseMaxHP: 0,
-    hpMultiplier: 1,
-    minGoldYield: 0,
-    maxGoldYield: 0,
-    goldMultiplier: 1,
-  });
-
-  const generateRandomEnemy = () => {
-    const randomIndex = Math.floor(Math.random() * enemies.length);
-    const randomEnemy = enemies[randomIndex];
-    currentEnemy = randomEnemy;
-    // Base values
-    const baseMinHP = randomEnemy.baseMinHP;
-    const baseMaxHP = randomEnemy.baseMaxHP;
-
-    // Exponential scaling factor
-    const hpMultiplier = Math.pow(randomEnemy.hpMultiplier, level - 1); // Grows each level
-
-    // Scaled random HP
-    const randHP = Math.floor(
-      (Math.random() * (baseMaxHP - baseMinHP) + baseMinHP) * hpMultiplier
-    );
-    maxHP = randHP;
-    currentHP = randHP;
-  };
-
-  //GAIN GOLD WHEN ENEMY DIES
-  const gainGoldOnDeath = () => {
-    // Exponential scaling factor
-    const goldMultiplier = Math.pow(currentEnemy.goldMultiplier, level - 1);
-
-    // Scaled random GOLD
-    const randGold = Math.floor(
-      (Math.random() * (currentEnemy.maxGoldYield - currentEnemy.minGoldYield) +
-        currentEnemy.minGoldYield) *
-        goldMultiplier
-    );
-    console.log(gold, randGold);
-
-    gold += randGold;
-  };
-
-  //RUNS EVERYTIME YOU TAKE DAMAGE
-  const takeDamage = (amount = 1) => {
-    if (amount > 0) {
-      currentHP -= amount;
-
-      damageAnimRef.addDamage(amount);
+    // Example usage
+  function handleAttack() {
+    const defeated = damageSystem.dealDamage(1);
+    if (defeated) {
+      console.log("Enemy defeated!");
     }
+  }
 
-    if (currentHP <= 0) {
-      level++;
-      gainGoldOnDeath();
-      generateRandomEnemy();
-    }
-  };
-
-  //DAMAGE PER SECOND
-  $effect(() => {
-    const interval = setInterval(() => {
-      takeDamage(dmgPerSecond);
-    }, 1000); // every second
-
-    return () => clearInterval(interval); // clean up when component is destroyed
-  });
-
-  generateRandomEnemy();
 </script>
 
-<button class="enemyBox" onclick={() => takeDamage(dmgPerClick)}>
-  <h1>{currentEnemy.name}</h1>
+<div class="enemyBox">
+  <h1>{enemy.currentEnemy.name}</h1>
 
   <div class="health-bar">
     <meter
       class="health-meter"
-      max={maxHP}
-      value={formatNum(currentHP, 3)}
+      max={enemy.maxHP}
+      value={formatNum(enemy.hp, 3)}
       title="HP"
-      low={maxHP * 0.3}
-      high={maxHP * 0.6}
-      optimum={maxHP * 0.7}
+      low={enemy.maxHP * 0.3}
+      high={enemy.maxHP * 0.6}
+      optimum={enemy.maxHP * 0.7}
     ></meter>
-    <p>{formatNum(currentHP, 1)} / {maxHP}</p>
+    <p>{formatNum(enemy.hp, 1)} / {enemy.maxHP}</p>
   </div>
 
-  <div class="enemyImageContainer">
+  <button class="enemyImageContainer" onclick={()=> {
+    handleAttack()
+  }}>
     <img
-      src={currentEnemy.url}
+      src={enemy.currentEnemy.url}
       alt=""
       onload={(e) => {
         // Auto-detect image dimensions
@@ -122,8 +58,8 @@
       }}
     />
     <DamageNumberAnimation bind:this={damageAnimRef} />
-  </div>
-</button>
+  </button>
+</div>
 
 <style>
   .enemyBox {
@@ -165,7 +101,7 @@
     background: #ffd600;
   }
   .health-meter::-webkit-meter-even-less-good-value {
-    background: #DD2C00;
+    background: #dd2c00;
   }
 
   .enemyBox h1 {
