@@ -96,10 +96,20 @@
 </script>
 
 <button class="enemyBox" onclick={() => takeDamage(dmgPerClick)}>
-  <h1>HP: {formatNum(currentHP, 3)}</h1>
-  <meter class="health-meter" max={maxHP} value={formatNum(currentHP, 3)} title="HP" low={maxHP * 0.3}   
-  high={maxHP * 0.6}></meter>
   <h1>{currentEnemy.name}</h1>
+
+  <div class="health-bar">
+    <meter
+      class="health-meter"
+      max={maxHP}
+      value={formatNum(currentHP, 3)}
+      title="HP"
+      low={maxHP * 0.3}
+      high={maxHP * 0.6}
+      optimum={maxHP * 0.7}
+    ></meter>
+    <p>{formatNum(currentHP, 1)} / {maxHP}</p>
+  </div>
 
   <div class="enemyImageContainer">
     <img
@@ -120,24 +130,42 @@
     outline: none;
   }
 
-  .health-meter {
+  .health-bar {
+    margin: 0 auto;
     width: 15%;
-    height: 20px;
+    position: relative;
+  }
+
+  .health-bar p {
+    position: absolute;
+    left: calc(50% - 80px / 2);
+    top: 8px;
+    line-height: 16px;
+    width: 80px;
+    text-shadow: 1px 1px 2px black;
+  }
+
+  .health-meter {
+    width: 100%;
+    height: 32px;
     -webkit-appearance: none;
     appearance: none;
+    position: relative;
   }
   /* Chrome/Safari */
   .health-meter::-webkit-meter-bar {
     background: #eee; /* Track color */
     border-radius: 10px;
   }
-  
+
   .health-meter::-webkit-meter-optimum-value {
-    background: #FFD600; /* Pure green */
+    background: #00c853;
   }
-  
   .health-meter::-webkit-meter-suboptimum-value {
-    background: #DD2C00; /* Pure yellow */
+    background: #ffd600;
+  }
+  .health-meter::-webkit-meter-even-less-good-value {
+    background: #DD2C00;
   }
 
   .enemyBox h1 {

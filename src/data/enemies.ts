@@ -5,9 +5,9 @@ export const enemies = [
         baseMinHP:8,
         baseMaxHP:12,
         hpMultiplier:1.08,
-        minGoldYield:3,
-        maxGoldYield:9,
-        goldMultiplier:1.03,
+        minGoldYield:4,
+        maxGoldYield:10,
+        goldMultiplier:1.04,
     },
     {
         name:"Hilichurl Shooter",
@@ -15,8 +15,8 @@ export const enemies = [
         baseMinHP:7,
         baseMaxHP:11,
         hpMultiplier:1.06,
-        minGoldYield:2,
-        maxGoldYield:8,
+        minGoldYield:3,
+        maxGoldYield:9,
         goldMultiplier:1.02,
     },
 ]

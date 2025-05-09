@@ -13,7 +13,16 @@
 
     if(upgrade?.dmgPerSec) dmgPerSecond += upgrade.dmgPerSec
 
-    console.log(upgrade.price, upgrade.priceMultiplier);
+
+    switch (upgrade.owned) {
+      case 3:
+        if(upgrade?.dmgPerClick) dmgPerClick += upgrade?.dmgPerClick
+        if(upgrade?.dmgPerSec) dmgPerSecond += upgrade?.dmgPerSec
+        break;
+    
+      default:
+        break;
+    }
     
     upgrade.price = upgrade.price * upgrade.priceMultiplier
   }
@@ -21,10 +30,10 @@
 </script>
 
 <div class="buyBox">
-  <h3>{upgrade.name} #{upgrade.owned}</h3>
-  <img src={upgrade.url} alt="" />
+  <h3>{#if gold >= upgrade.price || upgrade.owned > 0} {upgrade.name} #{upgrade.owned} {:else} ??? {/if}</h3>
+  <img class="{gold >= upgrade.price || upgrade.owned > 0 ? "show" : "hide"}" src={upgrade.url} alt="" />
   <p>{formatNum(upgrade.price)} Gold</p>
-  <small>{upgrade.flavorText}</small>
+  <small>{#if gold >= upgrade.price || upgrade.owned > 0} {upgrade.flavorText} {:else} ??? {/if}</small>
   <button disabled={upgrade.price > gold} onclick={() => buyUpgrade()}>Buy</button>
 </div> 
 
@@ -45,6 +54,14 @@
   img{
     width: 96px;
     height: 96px;
+  }
+
+  img.hide {
+    filter: brightness(0%);
+  }
+
+    img.show {
+    filter: brightness(100%);
   }
 
   button {
