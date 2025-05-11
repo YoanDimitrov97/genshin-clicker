@@ -1,28 +1,20 @@
 <script lang="ts">
+    import { stats } from "../systems/stats.system.svelte";
     import { formatNum } from "../utils/formatNum";
 
   
-  let { upgrade = $bindable(), gold = $bindable(), dmgPerClick = $bindable(), dmgPerSecond = $bindable()} = $props();
-  console.log(upgrade.price, gold);
+  let { upgrade = $bindable()} = $props();
+ 
   
   const buyUpgrade = () => {
-    gold -= upgrade.price;
+    stats.loseGold(upgrade.price);
     upgrade.owned++;
     
-    if(upgrade?.dmgPerClick) dmgPerClick += upgrade.dmgPerClick
+    if(upgrade?.dmgPerClick) stats.gainDPC(upgrade.dmgPerClick)
 
-    if(upgrade?.dmgPerSec) dmgPerSecond += upgrade.dmgPerSec
+    if(upgrade?.dmgPerSec) stats.gainDPS(upgrade.dmgPerSec)
 
-
-    switch (upgrade.owned) {
-      case 3:
-        if(upgrade?.dmgPerClick) dmgPerClick += upgrade?.dmgPerClick
-        if(upgrade?.dmgPerSec) dmgPerSecond += upgrade?.dmgPerSec
-        break;
-    
-      default:
-        break;
-    }
+    //:TODO BOOST DAMAGE BASED ON UPGRADE OWNED
     
     upgrade.price = upgrade.price * upgrade.priceMultiplier
   }
@@ -30,11 +22,11 @@
 </script>
 
 <div class="buyBox">
-  <h3>{#if gold >= upgrade.price || upgrade.owned > 0} {upgrade.name} #{upgrade.owned} {:else} ??? {/if}</h3>
-  <img class="{gold >= upgrade.price || upgrade.owned > 0 ? "show" : "hide"}" src={upgrade.url} alt="" />
+  <h3>{#if stats.gold >= upgrade.price || upgrade.owned > 0} {upgrade.name} #{upgrade.owned} {:else} ??? {/if}</h3>
+  <img class="{stats.gold >= upgrade.price || upgrade.owned > 0 ? "show" : "hide"}" src={upgrade.url} alt="" />
   <p>{formatNum(upgrade.price)} Gold</p>
-  <small>{#if gold >= upgrade.price || upgrade.owned > 0} {upgrade.flavorText} {:else} ??? {/if}</small>
-  <button disabled={upgrade.price > gold} onclick={() => buyUpgrade()}>Buy</button>
+  <small>{#if stats.gold >= upgrade.price || upgrade.owned > 0} {upgrade.flavorText} {:else} ??? {/if}</small>
+  <button disabled={upgrade.price > stats.gold} onclick={() => buyUpgrade()}>Buy</button>
 </div> 
 
 <style>

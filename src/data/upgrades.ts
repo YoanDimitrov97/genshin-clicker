@@ -6,8 +6,8 @@ export const upgrades = [
     price: 25,
     priceMultiplier: 1.14,
     dmgPerSec: 0.1,
-    elementalType:"Electro",
-    owned:0,
+    elementalType: "Electro",
+    owned: 0,
   },
   {
     name: "Fantastic Voyage",
@@ -16,8 +16,8 @@ export const upgrades = [
     price: 50,
     priceMultiplier: 1.14,
     dmgPerClick: 1,
-    elementalType:"Pyro",
-    owned:0,
+    elementalType: "Pyro",
+    owned: 0,
   },
   {
     name: "Glacial Waltz",
@@ -26,8 +26,8 @@ export const upgrades = [
     price: 100,
     priceMultiplier: 1.14,
     dmgPerSec: 0.5,
-    elementalType:"Cryo",
-    owned:0,
+    elementalType: "Cryo",
+    owned: 0,
   },
   {
     name: "Fiery Rain",
@@ -36,8 +36,8 @@ export const upgrades = [
     price: 250,
     priceMultiplier: 1.14,
     dmgPerCast: 10,
-    elementalType:"Pyro",
-    owned:0,
+    elementalType: "Pyro",
+    owned: 0,
   },
   {
     name: "Lightning Rose",
@@ -46,44 +46,39 @@ export const upgrades = [
     price: 500,
     priceMultiplier: 1.14,
     dmgPerSec: 1,
-    elementalType:"Electro",
-    owned:0,
+    elementalType: "Electro",
+    owned: 0,
   },
-  // {
-  //   name: "Xingqiu's Rain Blade",
-  //   flavorText: "+ 10 dmg/click",
-  //   url: "https://rerollcdn.com/GENSHIN/Characters/1/Xingqiu.png",
-  //   basePrice: 100,
-  //   dmgPerClick: 1,
-  // },
-  // {
-  //   name: "Pyronado",
-  //   flavorText: "+ 1 dmg/s",
-  //   url: "https://rerollcdn.com/GENSHIN/Characters/1/Xiangling.png",
-  //   basePrice: 1000,
-  //   dmgPerSec: 1,
-  // },
-  // {
-  //   name: "Layla R",
-  //   flavorText: "+ 10 dmg/s",
-  //   url: "https://paimon.moe/images/characters/layla.png",
-  //   basePrice: 9000,
-  //   dmgPerSec: 10,
-  // },
-  // {
-  //   name: "Thoma R",
-  //   flavorText: "+ 10 dmg/s",
-  //   url: "https://paimon.moe/images/characters/thoma.png",
-  //   basePrice: 9000,
-  //   dmgPerSec: 10,
-  // },
-  // {
-  //   name: "Furina E",
-  //   flavorText: "+ 0.1 dmg/s",
-  //   url: "https://rerollcdn.com/GENSHIN/Characters/1/Furina.png",
-  //   basePrice: 100,
-  //   dmgPerSec: 0.1,
-  // },
+  {
+    name: "Xingqiu's Rain Blade",
+    flavorText: "+ 1 dmg/sec",
+    url: "https://rerollcdn.com/GENSHIN/Characters/1/Xingqiu.png",
+    price: 500,
+    priceMultiplier: 1.14,
+    dmgPerSec: 1,
+    elementalType: "Hydro",
+    owned: 0,
+  },
+    {
+    name: "Pyronado",
+    flavorText: "+ 1 dmg/sec",
+    url: "https://rerollcdn.com/GENSHIN/Characters/1/Xiangling.png",
+    price: 500,
+    priceMultiplier: 1.14,
+    dmgPerSec: 1,
+    elementalType: "Hydro",
+    owned: 0,
+  },
 ];
 
-//furina, xingqui, xiangling, 
+export type Upgrade  = {
+    name: string;
+    flavorText: string;
+    url: string;
+    price: string;
+    pripriceMultiplierce: string;
+    dmgPerSec?: number;
+    dmgPerClick?: number;
+    elementalType:string;
+    owned:number;
+}
