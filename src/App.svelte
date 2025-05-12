@@ -5,8 +5,6 @@
   import Artifacts from "./Artifacts.svelte";
   import GlobalStats from "./GlobalStats.svelte";
 
-  import { stats } from "./systems/stats.system.svelte";
-
   let currentView: string = $state("");
 </script>
 
@@ -40,11 +38,4 @@
     gap: 4px;
     box-sizing: border-box;
   }
-
-  /* .upgrades {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    overflow-y: scroll;
-  } */
 </style>

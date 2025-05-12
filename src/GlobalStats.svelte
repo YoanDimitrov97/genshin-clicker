@@ -1,16 +1,21 @@
 <script lang="ts">
     import { formatNum } from "./utils/formatNum";
     import { stats } from "./systems/stats.system.svelte";
+  import { enemy } from "./systems/enemy.system.svelte";
 </script>
 
 <footer>
     <div class="stats-info">
         <div class="version">
-            <small class="version">Genshin Clicker v0.1</small>
+            <small class="version">Genshin Clicker v0.2</small>
         </div>
         <div class="stats">
             <span>Damage Per Click: {formatNum(stats.dmgPerClick)}</span>
             <span>Damage Per Second: {formatNum(stats.dmgPerSecond)}</span>
+            <span>Pyro DPS: {formatNum(stats.characterStats.pyroDps)}</span>
+            <span>Cryo DPS: {formatNum(stats.characterStats.cryoDps)}</span>
+            <span>Electro DPS: {formatNum(stats.characterStats.electroDps)}</span>
+            <span>Enemies Killed: {enemy.enemyLevel}</span>
             <span>Crit Rate: {formatNum(stats.characterStats.critRate)}%</span>
             <span>Crit DMG: {formatNum(stats.characterStats.critDmg)}%</span>
         </div>

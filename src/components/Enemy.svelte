@@ -5,18 +5,54 @@
   import DamageNumberAnimation from "./DamageNumberAnimation.svelte";
 
   let damageAnimation: {
-    addDamage: (value: number) => void;
+    addDamage: (value: number, element:string) => void;
   };
+
 
   enemy.spawnEnemy();
 
-  $effect(() => {
-    if (stats.dmgPerSecond > 0) {
-      const dpsInterval = setInterval(() => {
-        enemy.dealDpsDamage(damageAnimation?.addDamage);
+  function setupDpsInterval(dps: number, element: string) {
+    if (dps > 0) {
+      const interval = setInterval(() => {
+        switch (element) {
+          case "Pyro":
+            enemy.dealPyroDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Hydro":
+            enemy.dealHydroDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Cryo":
+            enemy.dealCryoDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Electro":
+            enemy.dealElectroDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Anemo":
+            enemy.dealAnemoDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Geo":
+            enemy.dealGeoDpsDamage(damageAnimation?.addDamage);
+            break;
+          case "Dendro":
+            enemy.dealDendroDpsDamage(damageAnimation?.addDamage);
+            break;
+
+          default:
+            break;
+        }
       }, 1000);
+
+      return () => clearInterval(interval);
     }
-  });
+  }
+
+  $effect(() => setupDpsInterval(stats.characterStats.pyroDps, "Pyro"));
+  $effect(() => setupDpsInterval(stats.characterStats.hydroDps, "Hydro"));
+  $effect(() => setupDpsInterval(stats.characterStats.cryoDps, "Cryo"));
+  $effect(() => setupDpsInterval(stats.characterStats.electroDps, "Electro"));
+  $effect(() => setupDpsInterval(stats.characterStats.anemoDps, "Anemo"));
+  $effect(() => setupDpsInterval(stats.characterStats.geoDps, "Geo"));
+  $effect(() => setupDpsInterval(stats.characterStats.dendroDps, "Dendro"));
 </script>
 
 <div class="enemyBox">
@@ -70,9 +106,10 @@
     position: absolute;
     top: 8px;
     line-height: 16px;
-    width: 80px;
-    left: calc(50% - 40px / 2);
+    width: 160px;
+    left: calc(50% - 160px / 2);
     text-shadow: 1px 1px 2px black;
+    text-align: center;
   }
 
   .health-meter {

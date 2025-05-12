@@ -60,10 +60,21 @@
         currentGachaResult = allRolls;
     };
 
+    const calculateSellPercentage = (item: Weapon) => {
+        return Math.round(item.atk / item.maxAtk * 90) + 1
+    }
+
+    const sellGachaResult = (item:Weapon) => {
+        stats.gainGold(calculateSellPercentage(item))
+        currentGachaResult = currentGachaResult.filter(i => i.id !== item.id)
+    }
+
     export const gacha = {
         get gachaRolls() {
             return currentGachaResult;
         },
         rollGacha: (num: number) => rollGacha(num),
+        calculateSellPercentage: (item: Weapon) => calculateSellPercentage(item),
+        sellGachaResult: (item: Weapon) => sellGachaResult(item),
     };
 </script>

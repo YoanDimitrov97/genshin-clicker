@@ -12,10 +12,10 @@
     
     if(upgrade?.dmgPerClick) stats.gainDPC(upgrade.dmgPerClick)
 
-    if(upgrade?.dmgPerSec) stats.gainDPS(upgrade.dmgPerSec)
+    if(upgrade?.dmgPerSec) stats.gainDPS(upgrade.dmgPerSec, upgrade.elementalType)
 
-    //:TODO BOOST DAMAGE BASED ON UPGRADE OWNED
-    
+    //: TODO BOOST DAMAGE BASED ON UPGRADE OWNED
+
     upgrade.price = upgrade.price * upgrade.priceMultiplier
   }
 
