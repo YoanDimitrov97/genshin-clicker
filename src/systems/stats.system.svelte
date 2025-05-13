@@ -78,6 +78,7 @@
     levelUp: () => level++,
     gainDPC: (amount: number) => (dmgPerClick += amount),
     gainDPS: (amount: number, element: string) => gainDamagePerSecond(amount, element),
+    gainCritRate: (amount:number) => characterStats.critRate += amount,
     gainGold: (amount: number) => (gold += amount),
     loseGold: (amount: number) => (gold -= amount),
     critMultiplyer: () => 1 + characterStats.critDmg / 100,

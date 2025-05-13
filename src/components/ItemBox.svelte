@@ -32,19 +32,19 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .item-rarity-common {
+  .item-rarity-COMMON {
     background-image: url("https://static.wikia.nocookie.net/gensin-impact/images/c/c2/Background_Item_1_Star.png");
   }
-  .item-rarity-uncommon {
+  .item-rarity-UNCOMMON {
     background-image: url("https://static.wikia.nocookie.net/gensin-impact/images/2/2e/Background_Item_2_Star.png");
   }
-  .item-rarity-rare {
+  .item-rarity-RARE {
     background-image: url("https://static.wikia.nocookie.net/gensin-impact/images/2/20/Background_Item_3_Star.png");
   }
-  .item-rarity-epic {
+  .item-rarity-EPIC {
     background-image: url("https://static.wikia.nocookie.net/gensin-impact/images/e/ec/Background_Item_4_Star.png");
   }
-  .item-rarity-legendary {
+  .item-rarity-LEGENDARY {
     background-image: url("https://static.wikia.nocookie.net/gensin-impact/images/7/76/Background_Item_5_Star.png");
   }
 
