@@ -8,22 +8,36 @@ type Rarity = "COMMON" | "UNCOMMON" | "RARE" | "EPIC" | "LEGENDARY";
 
 export const mainStatRules: Record<
   ItemSlots,
-  Partial<Record<ItemStats, { stat: ItemStats; min: number; max: number }>>
+  Partial<Record<ItemStats, { min: number; max: number }>>
 > = {
   [ItemSlots.CIRCLET]: {
-    [ItemStats.CRITRATE]: { stat: ItemStats.CRITRATE, min: 2.5, max: 5 },
-    [ItemStats.CRITDMG]: { stat: ItemStats.CRITDMG, min: 5, max: 10 },
+    [ItemStats.CRITRATE]: { min: 2.5, max: 5 },
+    [ItemStats.CRITDMG]: { min: 5, max: 10 },
   },
   [ItemSlots.WEAPON]: {
-    [ItemStats.ATK]: { stat: ItemStats.ATK, min: 0.2, max: 2.0 },
+    [ItemStats.ATK]: { min: 0.2, max: 2.0 },
   },
   // Add other slots with their own rules as needed
   [ItemSlots.FLOWER]: {
-    [ItemStats.PYRODPS]: { stat: ItemStats.PYRODPS, min: 5, max: 10 },
+    [ItemStats.ATK]: { min: 0.2, max: 2.0 },
   },
-  [ItemSlots.PLUME]: {},
-  [ItemSlots.SANDS]: {},
-  [ItemSlots.GOBLET]: {},
+  [ItemSlots.PLUME]: {
+    [ItemStats.ATK]: { min: 0.2, max: 2.0 },
+    [ItemStats.CRITRATE]: { min: 2, max: 4 },
+  },
+  [ItemSlots.SANDS]: {
+    [ItemStats.ATK]: { min: 0.2, max: 2.0 },
+    [ItemStats.CRITRATE]: { min: 2, max: 4 },
+  },
+  [ItemSlots.GOBLET]: {
+    [ItemStats.PYRODPS]: { min: 5, max: 10 },
+    [ItemStats.HYDRODPS]: { min: 5, max: 10 },
+    [ItemStats.ELECTRODPS]: { min: 5, max: 10 },
+    [ItemStats.CRYODPS]: { min: 5, max: 10 },
+    [ItemStats.GEODPS]: { min: 5, max: 10 },
+    [ItemStats.ANEMODPS]: { min: 5, max: 10 },
+    [ItemStats.DENDRODPS]: { min: 5, max: 10 },
+  },
 };
 
 

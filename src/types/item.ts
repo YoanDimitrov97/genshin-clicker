@@ -1,6 +1,13 @@
 import { ItemSlots } from "./itemSlots";
 import { ItemStats } from "./itemStats";
 
+export type Substat = {
+  stat: ItemStats;
+  value: number;
+  min: number;
+  max: number;
+};
+
 export type Item = {
   id?: string | number;
   name: string;
@@ -8,31 +15,13 @@ export type Item = {
   itemSlot: ItemSlots;
 
   mainStat?: ItemStats;
-  mainStatValue?: number;
+  mainStatValue: number;
   minMainStatValue?: number;
   maxMainStatValue?: number;
 
-  substatOne?: ItemStats;
-  substatOneValue?: number;
-  minSubstatOneValue?: number;
-  maxSubstatOneValue?: number;
-
-  substatTwo?: ItemStats;
-  substatTwoValue?: number;
-  minSubstatTwoValue?: number;
-  maxSubstatTwoValue?: number;
-
-  substatThree?: ItemStats;
-  substatThreeValue?: number;
-  minSubstatThreeValue?: number;
-  maxSubstatThreeValue?: number;
-
-  substatFour?: ItemStats;
-  substatFourValue?: number;
-  minSubstatFourValue?: number;
-  maxSubstatFourValue?: number;
+  substats?: Substat[];
 
   url: string;
-  effectFlavorText?:string;
+  effectFlavorText?: string;
   effectBonus?: void;
 };

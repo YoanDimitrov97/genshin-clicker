@@ -5,10 +5,10 @@
   import { getRandomNum } from "../utils/getRandomNum";
   import { stats } from "./stats.system.svelte";
 
-  import type { Item } from "../types/item";
+  import type { Item, Substat } from "../types/item";
   import { ItemStats } from "../types/itemStats";
   import { ItemSlots } from "../types/itemSlots";
-  import { mainStatRules } from "../types/rules";
+  import { mainStatRules, raritySubstatRules } from "../types/rules";
 
   let currentGachaResult: Item[] = $state([]);
 
@@ -56,6 +56,15 @@
     // return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
+  function getRandomStat(obj: Record<string, { min: number; max: number }>) {
+    const keys = Object.keys(obj) as ItemStats[];
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    return {
+      stat: randomKey,
+      range: obj[randomKey],
+    };
+  }
+
   const rollGacha = (xTimes: number) => {
     //roll x amount of times
     let allRolls: Item[] = [];
@@ -67,7 +76,7 @@
       //decide on the piece, WEAPON | FLOWER etc
       const piece = determineRollPiece();
 
-      let itemTemplate: Partial<Item>;
+      let itemTemplate: Item;
 
       if (piece === ItemSlots.WEAPON) {
         const weaponPool = weapons[rarity];
@@ -79,33 +88,89 @@
         itemTemplate = piecePool[randIndex];
       }
 
-      const item: Item = {
+      //: TODO IF MORE THAN 1 SUBSTAT, GET RANDOM 1
+      let randomMainStat = getRandomStat(mainStatRules[itemTemplate.itemSlot]);
+
+      let randomSubstatCount: number;
+      let substatsBasedOnRarity;
+
+      switch (itemTemplate.rarity) {
+        case "COMMON":
+          randomSubstatCount = getRandomNum(4, 4);
+          substatsBasedOnRarity = raritySubstatRules.COMMON;
+          break;
+        case "UNCOMMON":
+          randomSubstatCount = getRandomNum(1, 2);
+          substatsBasedOnRarity = raritySubstatRules.UNCOMMON;
+          break;
+        case "RARE":
+          randomSubstatCount = getRandomNum(2, 3);
+          substatsBasedOnRarity = raritySubstatRules.RARE;
+          break;
+        case "EPIC":
+          randomSubstatCount = getRandomNum(3, 4);
+          substatsBasedOnRarity = raritySubstatRules.EPIC;
+          break;
+        default:
+          randomSubstatCount = 4;
+          substatsBasedOnRarity = raritySubstatRules.LEGENDARY;
+          break;
+      }
+
+      if (randomSubstatCount > 0) {
+        const substats: Substat[] = [];
+        const usedStats = new Set<ItemStats>();
+
+        let stat: ItemStats;
+
+        // ensure uniqueness
+        do {
+          stat = getRandomStat(substatsBasedOnRarity);
+        } while (usedStats.has(stat));
+        usedStats.add(stat);
+
+        console.log(stat);
+        
+        const range = substatsBasedOnRarity[stat.stat];
+        
+        const value = parseFloat(
+            formatNum(
+                getRandomNum(range.min, range.max, false), 2)
+            );
+
+        substats.push({
+          stat:stat.stat,
+          value,
+          min: range.min,
+          max: range.max,
+        });
+
+        itemTemplate = {
+          ...itemTemplate,
+          substats,
+        };
+      }
+
+      let item: Item = {
         ...itemTemplate,
         id: generateUniqueId(),
+        mainStat: randomMainStat.stat,
+        minMainStatValue: randomMainStat.range.min,
+        maxMainStatValue: randomMainStat.range.max,
+        mainStatValue: parseFloat(
+          formatNum(
+            getRandomNum(
+              randomMainStat.range.min,
+              randomMainStat.range.max,
+              false
+            ),
+            2
+          )
+        ),
       };
-
-      //: TODO IF MORE THAN 1 SUBSTAT, GET RANDOM 1 
-      console.log(mainStatRules[item.itemSlot]);
+      console.log(item);
 
       allRolls.push(item);
-
-      //   if (piece === ItemSlots.WEAPON) {
-      //     //get the length of all the weapons in the COMMON/RARE etc rarity
-      //     let weaponLength = weapons[rarity].length - 1;
-
-      //     let randWeaponIndex = getRandomNum(0, weaponLength);
-
-      //     let randWeapon: Item = weapons[rarity][randWeaponIndex];
-
-      //     const newWeapon = {
-      //       ...randWeapon,
-      //       id: generateUniqueId(),
-      //       mainStat: ItemStats.ATK,
-      //       mainStatValue: getRandomNum(0.2, 2),
-      //     };
-
-      //     allRolls.push(newWeapon);
-      //   }
     }
     currentGachaResult = allRolls;
   };

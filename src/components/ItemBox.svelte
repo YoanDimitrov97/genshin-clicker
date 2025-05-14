@@ -11,7 +11,10 @@
     <img src={item.url} alt="" />
   </div>
 
-  <p>+ {item.atk} ATK</p>
+  <p>+ {item.mainStatValue} {item.mainStat}</p>
+  {#each item.substats as substat}
+  <small>+ {substat.value} {substat.stat}</small>
+  {/each}
   <div>
     <button>Add to Bag</button>
     <button
