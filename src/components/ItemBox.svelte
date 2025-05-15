@@ -1,6 +1,6 @@
 <script lang="ts">
   import { gacha } from "../systems/gacha.system.svelte";
-  import { stats } from "../systems/stats.system.svelte";
+  import { fixStatNames } from "../utils/fixStatNames";
 
   let { item } = $props();
 </script>
@@ -11,15 +11,15 @@
     <img src={item.url} alt="" />
   </div>
 
-  <p>+ {item.mainStatValue} {item.mainStat}</p>
+  <p>+ {item.mainStat.value} {fixStatNames(item.mainStat.stat)}</p>
   {#each item.substats as substat}
-  <small>+ {substat.value} {substat.stat}</small>
+  <small>+{substat.value} { fixStatNames(substat.stat)}</small>
   {/each}
   <div>
     <button>Add to Bag</button>
     <button
       onclick={() => {
-        gacha.sellGachaResult(item)
+        gacha.sellGachaResults(item)
       }}>Sell for {gacha.calculateSellPercentage(item)}G</button
     >
   </div>
@@ -59,6 +59,11 @@
 
   p {
     text-align: center;
+    background-color: #111;
+  }
+
+  small {
+    display:block;
     background-color: #111;
   }
 </style>

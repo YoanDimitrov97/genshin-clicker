@@ -1,7 +1,7 @@
 import { ItemSlots } from "./itemSlots";
 import { ItemStats } from "./itemStats";
 
-export type Substat = {
+export type Stat = {
   stat: ItemStats;
   value: number;
   min: number;
@@ -14,12 +14,9 @@ export type Item = {
   rarity: string;
   itemSlot: ItemSlots;
 
-  mainStat?: ItemStats;
-  mainStatValue: number;
-  minMainStatValue?: number;
-  maxMainStatValue?: number;
+  mainStat?: Stat;
 
-  substats?: Substat[];
+  substats?: Stat[];
 
   url: string;
   effectFlavorText?: string;

@@ -7,7 +7,7 @@
 <footer>
     <div class="stats-info">
         <div class="version">
-            <small class="version">Genshin Clicker v0.2</small>
+            <small class="version">Genshin Clicker v0.3</small>
         </div>
         <div class="stats">
             <span>Damage Per Click: {formatNum(stats.dmgPerClick)}</span>

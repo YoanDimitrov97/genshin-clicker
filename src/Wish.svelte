@@ -16,7 +16,7 @@
   </div>
 
   <button>ADD ALL</button>
-  <button>SELL ALL</button>
+  <button onclick={()=> {gacha.sellGachaResults(gacha.gachaRolls)}}>SELL ALL</button>
 </div>
 
 <style>
